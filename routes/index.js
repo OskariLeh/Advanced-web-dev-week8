@@ -26,7 +26,7 @@ body("password").contains('abcdefghijklmnopqrstuvwxyz')
   .then(email => {
     if(email) {
       console.log(email)
-      return res.status(400).send({"email":"Email alredy in use."})
+      return res.status(403).send({"email":"Email alredy in use."})
     } else {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(req.body.password, salt, (err, hash) => {
@@ -82,6 +82,7 @@ router.post("/api/todos", passport.authenticate("jwt", {session: false}),   (req
       Todo.create({
         user: req.body._id,
         items: req.body.items
+        return res.send("ok")
       })
     } else {
       let oldTodos = todo.items
@@ -89,6 +90,7 @@ router.post("/api/todos", passport.authenticate("jwt", {session: false}),   (req
         oldTodos.push(item)
       }); 
       Todo.updateOne({_id: todo._id}, {items: oldTodos})
+      return res.send("ok")
     }
   })
 })
