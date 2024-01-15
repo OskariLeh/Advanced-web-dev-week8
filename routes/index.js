@@ -82,8 +82,8 @@ router.post("/api/todos", passport.authenticate("jwt", {session: false}),   (req
       Todo.create({
         user: req.body._id,
         items: req.body.items
-        return res.send("ok")
       })
+      return res.send("ok")
     } else {
       let oldTodos = todo.items
       req.body.items.forEach(item => {
